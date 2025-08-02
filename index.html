@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Convertidor COP → VES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:'Segoe UI',sans-serif; background:#f4f6fc; }
+    .card { max-width:420px; background:#fff; border-radius:15px; padding:20px; margin:40px auto; box-shadow:0 4px 10px rgba(0,0,0,0.1); color:#1c1c1c; }
+    .section { background:#f4f6fc; border-radius:10px; padding:15px; margin-bottom:15px; }
+    .section h3 { margin:0;font-size:16px;color:#666; }
+    .section input { width:100%; font-size:24px; padding:10px; margin-top:5px; border:none; border-radius:8px; background:#fff; box-shadow:inset 0 0 3px rgba(0,0,0,0.1); }
+    .currency-label { font-size:14px; margin-top:3px; color:#888; }
+    .summary { font-size:14px; background:#f4f6fc; border-radius:10px; padding:15px; margin-top:10px; line-height:1.6; }
+    .summary div { display:flex; justify-content:space-between; margin-bottom:5px; }
+    .result { font-size:24px;font-weight:bold;color:#0c3fb3; text-align:center; margin-top:15px; }
+    .footer { background:#e9f5f4; padding:10px; border-radius:10px; text-align:center; font-size:14px; margin-top:15px; color:#1c1c1c; }
+    .footer b { color:#0c3fb3; }
+    .button { margin-top:20px; background:#0c3fb3; color:#fff; border:none; padding:15px; width:100%; font-size:16px; font-weight:bold; border-radius:10px; cursor:pointer; }
+    .lock { font-size:12px; text-align:center; color:#999; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="section">
+      <h3>Tú envías</h3>
+      <input type="number" id="monto" value="100000" min="0" />
+      <div class="currency-label">🇨🇴 COP</div>
+    </div>
+
+    <div class="section">
+      <h3>Tu contacto recibe</h3>
+      <div class="result"><span id="resultado">Cargando...</span> VES</div>
+      <div class="currency-label">🇻🇪 VES</div>
+    </div>
+
+    <div class="summary">
+      <div><span>🟣 Costo de envío:</span><span id="costoEnvio">-</span></div>
+      <div><span>🟣 Monto a convertir:</span><span id="montoConvertir">-</span></div>
+      <div><span>🟣 Tipo de cambio:</span><span id="tipoCambio">-</span></div>
+    </div>
+
+    <div class="footer">
+      💸 Tu dinero debería llegar el <b id="fechaEntrega">...</b>
+    </div>
+
+    <button class="button">Descarga la App</button>
+    <div class="lock">🔒 Sistema de envíos seguros</div>
+  </div>
+
+  <script>
+    const montoInput = document.getElementById("monto");
+    const resultadoEl = document.getElementById("resultado");
+    const costoEnvioEl = document.getElementById("costoEnvio");
+    const montoConvertirEl = document.getElementById("montoConvertir");
+    const tipoCambioEl = document.getElementById("tipoCambio");
+    const fechaEntregaEl = document.getElementById("fechaEntrega");
+
+    let tasaCambio = 0;
+
+    function calcular() {
+      const monto = parseFloat(montoInput.value) || 0;
+      const costoEnvio = monto * 0.07;
+      const montoConvertir = monto - costoEnvio;
+      costoEnvioEl.textContent = costoEnvio.toLocaleString('es-CO',{style:'currency',currency:'COP'});
+      montoConvertirEl.textContent = montoConvertir.toLocaleString('es-CO',{style:'currency',currency:'COP'});
+      if (tasaCambio > 0) {
+        const ves = montoConvertir * tasaCambio;
+        resultadoEl.textContent = ves.toLocaleString('es-VE', { maximumFractionDigits: 3 });
+        tipoCambioEl.textContent = `1 COP = ${tasaCambio.toFixed(6)} VES`;
+      } else {
+        resultadoEl.textContent = "Error VES";
+        tipoCambioEl.textContent = "No disponible";
+      }
+    }
+
+    async function obtenerTasa() {
+      try {
+        const resp = await fetch("https://api.exchangerate.host/convert?from=COP&to=VES&amount=1");
+        const json = await resp.json();
+        if (json && json.info && json.info.rate) {
+          tasaCambio = json.info.rate;
+        } else {
+          console.error("Formato inesperado", json);
+        }
+      } catch (e) {
+        console.error("Error al obtener tasa:", e);
+      } finally {
+        calcular();
+      }
+    }
+
+    function calcularFechaEntrega() {
+      const f = new Date();
+      f.setDate(f.getDate() + 3);
+      fechaEntregaEl.textContent = f.toLocaleDateString('es-CO', {day:'2-digit', month:'long'});
+    }
+
+    montoInput.addEventListener("input", calcular);
+    obtenerTasa();
+    calcularFechaEntrega();
+  </script>
+</body>
+</html>
