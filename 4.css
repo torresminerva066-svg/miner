@@ -1,0 +1,27 @@
+p.-large {
+    font-size: 18px
+}
+
+#bd,body {
+    width: 100%;
+    margin: 0;
+    float: none;
+    background: #fff
+}
+
+#bd h1,#bd h2,#bd h3,#bd h4,#bd h5,#bd i,#bd p,#bd span,body h1,body h2,body h3,body h4,body h5,body i,body p,body span {
+    color: #403f5d;
+    -webkit-print-color-adjust: exact
+}
+
+#facebookConnectPermissionDeniedDialog,#footer-bottom-bar,#ft,#nav,#nav-notification-container,._hidden,.breadcrumbs,.hidden,.hidden-print {
+    display: none
+}
+
+a:link {
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    color: #000
+}
+
+/*# sourceMappingURL=printdefault.css.map */
