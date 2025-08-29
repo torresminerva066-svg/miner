@@ -2245,10 +2245,7 @@ p.-large {
     }
 }
 
-@media screen and (max-width: 1024px) {
-    .section {
-        padding:64px
-    }
+
 
     .section.-marketing-hero {
         padding-left: 20px;
@@ -2298,10 +2295,7 @@ p.-large {
     }
 }
 
-@media screen and (max-width: 768px) {
-    .section {
-        padding:55px 15px
-    }
+
 
     .section .hero-breadcrumbs {
         justify-content: center
@@ -7687,11 +7681,7 @@ html:not([lang=en]) .homepage .hero-header {
         padding-right: 32px!important
     }
 
-    .homepage .section {
-        padding-left: 24px;
-        padding-right: 24px
-    }
-
+  
     .homepage .for-desktop {
         display: none
     }
