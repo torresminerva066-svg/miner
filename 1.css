@@ -1865,11 +1865,7 @@ p.-large {
     }
 }
 
-.section {
-    margin: auto;
-    max-width: 1240px;
-    padding: 100px 60px
-}
+
 
 .section.-v2 {
     max-width: 1280px;
