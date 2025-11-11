@@ -5,27 +5,7 @@
     font-style: normal;
     font-display: block
 }
-.btn.small {
-	align-content: center;
-	align-items: center;
-	border: none;
-	border-radius: 4px;
-	box-shadow: none;
-	cursor: pointer;
-	display: inline-flex;
-	flex-direction: row;
-	font-family: Nunito Sans, Helvetica, Arial, sans-serif;
-	justify-content: center;
-	outline: none;
-	position: relative;
-	-webkit-text-decoration: none;
-	text-decoration: none;
-	text-transform: lowercase;
-	transition: background-color .15s ease-in-out, background-position .15s ease-in-out;
-	width: auto;
-	-webkit-font-smoothing: auto;
-	-moz-osx-font-smoothing: auto
-}
+
 [class*=" icon-"],[class^=icon-] {
     font-family: postermywall!important;
     speak: never;
